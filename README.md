@@ -10,3 +10,9 @@
 3. run the app using 
 
        uvicorn main:app --reload
+       
+4. hit the url on browser to get api swagger api documentation
+
+       http://127.0.0.1:8000/docs
+   
+                                                               
