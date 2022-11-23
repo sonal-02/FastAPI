@@ -7,11 +7,11 @@
 
        pip3 install requirements.txt 
    
-3. run the app using 
+3. Run the app using 
 
        uvicorn main:app --reload
        
-4. hit the url on browser to get api swagger api documentation
+4. Hit the following url on browser to get swagger api documentation
 
        http://127.0.0.1:8000/docs
    
