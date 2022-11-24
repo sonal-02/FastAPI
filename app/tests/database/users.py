@@ -15,7 +15,7 @@ users_db = {
         "hashed_password": "63d9c147be7bdb5bfd02cdd4496363d1af5bb158bb1c3915d2203998dfe9514e",
         "email": "alice@gmail.com",
         "active": False,
-        "permissions": ['/items']
+        "permissions": ['/users']
     },
 }
 

@@ -1,8 +1,7 @@
-from fastapi import Depends, HTTPException, status
-from utils.user.scheme import oauth2_user_scheme
+from fastapi import HTTPException, status
 from utils.basemodel.user import User
 from models.users import users_db
-from utils.token.get_token import get_username
+from models.token import token_db
 
 
 class UserInDB(User):
@@ -12,6 +11,7 @@ class UserInDB(User):
     active: str
     email: str
     hashed_password: str
+    permissions: list
 
 
 def get_user(db, username: str):
@@ -20,8 +20,8 @@ def get_user(db, username: str):
         return UserInDB(**user_dict)
 
 
-async def get_current_user(token: str = Depends(oauth2_user_scheme)):
-    username = get_username(token)
+def get_current_user():
+    username = token_db.get('username', None)
     if username:
         user = get_user(users_db, username)
         if user:
@@ -31,8 +31,4 @@ async def get_current_user(token: str = Depends(oauth2_user_scheme)):
                 detail="Invalid authentication credentials",
                 headers={"WWW-Authenticate": "Bearer"},
             )
-
-
-
-
 
