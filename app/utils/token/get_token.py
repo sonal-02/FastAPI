@@ -1,10 +1,16 @@
-import hashlib
+import uuid
 from models.token import token_db
 
-def get_token(username):
-    token = hashlib.sha256(str(username).encode('utf-8'))
-    return token.hexdigest() 
+class Token:
+    """
+    Token class is used to generate token and check the token is valid or not
+    """
+    @staticmethod
+    def get_token(username):
+        return uuid.uuid4().hex
 
-def check_token(token):
-    access_token = token_db.get('access_token', None)
-    return access_token == token
+    @staticmethod
+    def check_token(token):
+        access_token = token_db.get('access_token', None)
+        print("==a=a", access_token, token)
+        return access_token == token

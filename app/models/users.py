@@ -5,7 +5,7 @@ users_db = {
         "surname": "doe",
         "hashed_password": "7657d4aa2c2888f0925f11178d14a321f1ae9f33580a99a313ffa492296beac3",
         "email": "johndoe@gmail.com",
-        "active": True, 
+        "active": True,
         "permissions": ['/users']
     },
     "aliceblue": {

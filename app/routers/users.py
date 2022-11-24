@@ -1,8 +1,8 @@
-from fastapi import Depends, HTTPException, APIRouter
-from utils.user.get_user import get_current_user
+from fastapi import Depends, HTTPException, APIRouter, status
+from utils.user.get_user import CurrentUser
 from dependencies import get_token_header
 from models.users import users_db
-from utils.permissions.get_permissions import check_permission
+from utils.permissions.get_permissions import Permission
 
 router = APIRouter(
     prefix="/users",
@@ -11,16 +11,26 @@ router = APIRouter(
     responses={404: {"description": "Not found"}},
 )
 
+
 @router.get("/me")
 async def user_me():
-    check_permission(router)
-    current_user = get_current_user()
+    """
+     This api is used to return current user information
+    """
+    permission = Permission(router)
+    permission.check_permission()
+    current_user = CurrentUser.get_current_user()
     if not current_user.active:
-        raise HTTPException(status_code=400, detail="Inactive user")
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN, detail="Inactive user")
     return current_user
 
 
 @router.get("/all")
 async def get_users():
-    check_permission(router)
-    return users_db 
+    """
+     This api is used to return all user details
+    """
+    permission = Permission(router)
+    permission.check_permission()
+    return users_db

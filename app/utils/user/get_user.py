@@ -14,21 +14,26 @@ class UserInDB(User):
     permissions: list
 
 
-def get_user(db, username: str):
-    if username in db:
-        user_dict = db[username]
-        return UserInDB(**user_dict)
+class CurrentUser:
+    """
+    The CurrentUser class is used to get current user. If user not found in 
+    db then produce unauthorized error
+    """
 
+    @staticmethod
+    def get_user(db, username: str):
+        if username in db:
+            user_dict = db[username]
+            return UserInDB(**user_dict)
 
-def get_current_user():
-    username = token_db.get('username', None)
-    if username:
-        user = get_user(users_db, username)
-        if user:
-            return user
-    raise HTTPException(
-                status_code=status.HTTP_401_UNAUTHORIZED,
-                detail="Invalid authentication credentials",
-                headers={"WWW-Authenticate": "Bearer"},
-            )
-
+    @staticmethod
+    def get_current_user():
+        username = token_db.get('username', None)
+        if username:
+            user = CurrentUser.get_user(users_db, username)
+            if user:
+                return user
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid authentication credentials"
+        )
